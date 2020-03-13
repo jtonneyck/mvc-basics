@@ -1,6 +1,10 @@
 const express =  require("express");
 const app = express();
 const mongoose = require("mongoose");
+const bodyParser = require('body-parser');
+const hbs = require('hbs');
+app.use(bodyParser.urlencoded({ extended: false }))
+
 mongoose.connect('mongodb://localhost/video', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -14,9 +18,8 @@ mongoose.connect('mongodb://localhost/video', {
 
 app.set("PORT", 3000);
 app.set('view engine', 'hbs');
-const hbs = require('hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-
+app.use(express.static('public'));
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/movies"));
 
